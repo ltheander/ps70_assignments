@@ -4,6 +4,10 @@
 <title>PS70: Intro to Digital Fabrication </title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/arduino-light.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/arduino.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
 
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -23,13 +27,109 @@
 <xmp style="display:none;">
 <br> 
 
-#### Week 4: 3D Design and Printing
+#### Week 4: Microcontroller Programming
 
-Here is an image (will be replaced by image of completed assignment): 
+<h3>Improving the Wave Machine</h3>
 
-![image of 3D printer](./week4pic.jpg)
+![image of unscrewed base](./friction2.jpg)
 
-And here is a	[link to where the cover image came from](https://anthillonline.com/3d-printing-affect-australian-patent-system//).
+![image of reglued end piece](./friction1.jpg)
+
+![image of wheel-lock](./helper.jpg)
+
+<h3>Making Waves with Programming</h3>
+
+<pre><code><p style="text-align: left;">
+const int A1A = 3; // define pin 3 for A-1A (PWM Speed)
+const int A1B = 4; // define pin 4 for A-1B (direction)
+
+void setup() {
+  pinMode(A1A, OUTPUT); // specify these pins as outputs
+  pinMode(A1B, OUTPUT);
+  analogWrite(A1A, 0); // start with the motors off 
+  digitalWrite(A1B, LOW);
+}
+
+void loop() {
+  analogWrite(A1A, 255); // start the motor at top speed
+  digitalWrite(A1B, LOW);
+  delay(3000); // allow the motor to run for 3 seconds
+
+  // stop the motor for 3 seconds
+  analogWrite(A1A, 0); // setting both pins LOW stops the motor
+  delay(3000); // keep the motor off for 3 seconds
+
+  // start the motor in opposite direction at the same speed
+  digitalWrite(A1B, HIGH); // switch direction
+  analogWrite(A1A, 0); // here the logic for speed is inverted
+  delay(6000); // allow the motor to run for 6 seconds
+
+  // stop the motor for 3 seconds
+  analogWrite(A1A, 0); // setting both pins LOW stops the motor
+  digitalWrite(A1B, LOW);
+  delay(3000);
+
+}
+</p></code></pre>
+
+<video width="600" height="800" autoplay muted>
+  <source src="video1.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<pre><code><p style="text-align: left;">
+const int A1A = 3; // define pin 3 for A-1A (PWM Speed)
+const int A1B = 4; // define pin 4 for A-1B (direction)
+const int LED = 12; // define pin 12 for the LED
+
+void setup() {
+  pinMode(A1A, OUTPUT); // specify these pins as outputs
+  pinMode(A1B, OUTPUT);
+  pinMode(LED, OUTPUT);
+  analogWrite(A1A, 0); // start with the motors off 
+  digitalWrite(A1B, LOW);
+}
+
+void loop() {
+  digitalWrite(LED, LOW); 
+  analogWrite(A1A, 255); // start the motor at top speed
+  digitalWrite(A1B, LOW);
+  delay(8000); // allow the motor to run for 8 seconds
+
+  // stop the motor for 4 seconds and turn on LED
+  analogWrite(A1A, 0); // setting both pins LOW stops the motor
+  digitalWrite(LED, HIGH); // setting LED high turns on light
+  delay(4000); // keep the motor off for 4 seconds
+
+  // start the motor in opposite direction at the same speed
+  digitalWrite(LED, LOW);
+  digitalWrite(A1B, HIGH); // switch direction
+  analogWrite(A1A, 0); // here the logic for speed is inverted
+  delay(8000); // allow the motor to run for 8 seconds
+
+  // stop the motor for 4 seconds and turn on LED
+  analogWrite(A1A, 0); // setting both pins LOW stops the motor
+  digitalWrite(A1B, LOW);
+  digitalWrite(LED, HIGH);
+  delay(4000);
+
+}
+</p></code></pre>
+
+<video width="600" height="800" autoplay muted>
+  <source src="video2.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<h3>Circuitry</h3>
+
+![drawing of my circuit](./circuitdraw.jpg)
+
+![image of my circuit](./circuit.jpg)
+
+And here is a	[link to where the cover image came from](https://starofmysore.com/workshop-on-microcontroller-programming-using-keil//).
 
 </xmp>
 </body>
