@@ -31,29 +31,28 @@
 
 <br>
 
-<p></p>
-
-<br>
-
 <h3>Improving the Wave Machine</h3>
 
-<p></p>
+<p>This week, I wanted to continue my project from last week and make it change directions with the microcontroller. The first thing I had to do was to find a way to secure the motor as last week I had to manually hold it in place. I took a couple of boards, used a drill bit to drill out an oval shaped hole for the motor to sit in, and attached it to the wave machine through a combination of screws and hot glue.</p>
+
+<p>However, when I plugged my machine back into my computer and tried to get the motor to spin, 5 volts was not enough to overcome the friction in the system (likely introduced through a slight change in the angle of the dowel while securing the motor) and make the motor reliably turn. In order to reduce the friction in the system to make the machine spin with less energy, I made three adjustments to my machine. The first was to slightly unscrew to motor-holding apparatus from the base to make the dowel slightly more level.</p>
 
 ![image of unscrewed base](./friction2.jpg)
 
-<p></p>
+<p>Next, I unglued and slightly moved the end piece keeping the dowel from moving back and forth. This got this piece of cardboard away from the wooden frame and decreased rubbing and the resulting friction between the two.</p>
 
 ![image of reglued end piece](./friction1.jpg)
 
-<p></p>
+<p>Finally, I added a much larger wheel that is larger than the typical wheel holding apparatus to prevent the bar from slipping off of the last wheel. This greatly decreased the frequency of the bars overlapping or falling off of the tracks and made the wave machine run smoother.</p>
 
 ![image of wheel-lock](./helper.jpg)
 
 <br>
+<p>After making these three adjustments to my machine, it ran much smoother and friction had decreased in the system to the point where the five volts that the computer could provide was enough to overcome the friction in the system and make it reliably spin.</p>
 
 <h3>Making Waves with Programming</h3>
 
-<p></p>
+<p>Once my machine was improved and able to function on five volts, I started trying out Arduino code to make my motor do different tasks. I started with similar code to that which we used in class to make the motor change directions and speeds. I had the motor spin one direction for three seconds, turn off for three seconds, spin in the opposite direction for three seconds, speed up in the same direction for three seconds, and then turn off for three seconds. However, because there was still a decent amount of friction in the system, the motor functioned best running at top speed so I removed the speed change and was left with this code.</p>
 
 <pre><code><p style="text-align: left;">
 const int A1A = 3; // define pin 3 for A-1A (PWM Speed)
@@ -88,7 +87,7 @@ void loop() {
 }
 </p></code></pre>
 
-<p></p>
+<p>Here is a video of this code (still with the speed change) running with my wave machine. Note that due in part to the slower motor speed and short run time, the machine runs very choppily and gets stuck often. </p>
 
 <video width="600" height="800" autoplay muted>
   <source src="video1.mp4" type="video/mp4">
@@ -96,7 +95,7 @@ void loop() {
 Your browser does not support the video tag.
 </video>
 
-<p></p>
+<p>One problem I experienced while watching the machine run was not knowing when the machine was stopped due to a scheduled stop or when it was stopped because it was stuck. It is not great to keep the motor running when the machine is stuck because it can bend a bar or pull the bars further off of the tracks. Because of this concern, I decided to install an LED that would light up during scheduled stops and turn off when the motor is running. That way, when the machine is stopped and the light is off, I know that the machine is stuck rather than purposefully stopped and I can fix whatever is causing the problem. This is the code that runs the motor and the LED. I also increased the run time for the motor to better show the motion of the waves.</p>
 
 <pre><code><p style="text-align: left;">
 const int A1A = 3; // define pin 3 for A-1A (PWM Speed)
@@ -137,7 +136,7 @@ void loop() {
 }
 </p></code></pre>
 
-<p></p>
+<p>This is a video of this code working with my machine. The pattern of forward motion, the motor stopping and the LED turning on, the LED turning off and the motor going in the opposite direction, and finally the motor stopping and the LED turning on again can be seen.</p>
 
 <video width="600" height="800" autoplay muted>
   <source src="video2.mp4" type="video/mp4">
@@ -149,13 +148,15 @@ Your browser does not support the video tag.
 
 <h3>Circuitry</h3>
 
-<p></p>
+<p>This is a drawing of the circuit that I used to move my mave machine and control the LED.</p>
 
 ![drawing of my circuit](./circuitdraw.jpg)
 
-<p></p>
+<p>And here is a picture of the circuit itself for reference.</p>
 
 ![image of my circuit](./circuit.jpg)
+
+<p>While the work that took the majority of time this week was the fixing of the wave machine and making it run much smoother, the things I learned from the programming portion of this assignment will greatly help me in future weeks and particuarily on my final project.</p>
 
 <br>
 
