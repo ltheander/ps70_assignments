@@ -23,9 +23,20 @@
 <xmp style="display:none;">
 <br> 
 
-#### Week 5: 3D Printing 
+#### Week 5: 3D Printing
 
-Here is a [link to my week 2 page](https://ltheander.github.io/ps70_assignments/Week_2/week2content.html) where I documented my construction of the 2x4 block.
+<br>
+
+<h3>Ideas and Getting Started with 3D Printing</h3>
+
+<p>During lab this week, one of the tasks was to 3D print a part that would take approximately ten minutes. I decided to go back to my week two project and 3D print the lego brick that I designed based off of a tutorial. I printed on a speed setting and scaled down the brick to half of its original size. Once I downloaded prusa and learned the 3D printing process, I printed the piece which only took five minutes. I was satisfied with the single brick, but then another student gave me the brilliant idea to print another one and see if they fit together. I then reprinted and upon putting the two pieces together, I found that they fit together perfectly.</p>
+
+
+<p>This gave me an idea for the project for this week; I would make real-sized legos of a variety of shapes that would all fit together to be assembled into a 3D structure. I treated this project as a sister project to my week two project to compare 2D and 3D construction.</p>
+
+<h3>Modeling and Printing</h3>
+
+<p>I started with the original model that I created week two. I resized it to be 0.75 times the size of the original design. Here is a [link to my week 2 page](https://ltheander.github.io/ps70_assignments/Week_2/week2content.html) where I documented my construction of the 2x4 block. </p>
 
 <a download href="./BlockDesign1.f3d"> Download my 2x4 Block Fusion File </a>
 
@@ -33,11 +44,15 @@ Here is a [link to my week 2 page](https://ltheander.github.io/ps70_assignments/
 
 <a download href="./BlockDesign1.gcode"> Download my 2x4 Block Gcode </a>
 
+<p>After printing the correctly-sized model and checking that the pieces fit together in the desired size, I had to find a way to redesign the model to create other pieces that still are compatible with the other pieces. I knew that I needed to keep the distances between the top circles and the distances between the tubes on the underneath sides and the side walls constant. So, I created a couple of equations based on measurements taken from the original model that I predicted would give the correct size of the brick given only how many top circles I wanted. In order to test that my equations used to mutate the original design would work, I modeled and printed several 2x2 bricks.</p>
+
 <a download href="./2x2block.f3d"> Download my 2x2 Block Fusion File </a>
 
 <a download href="./2x2block.stl"> Download my 2x2 Block STL File </a>
 
 <a download href="./2x2block.gcode"> Download my 2x2 Block Gcode </a>
+
+<p>After I printed these 2x2 blocks, I confirmed that they not only fit together but that they also fit with the 2x4 block. This proved that the modifications that I made according to the equations I made were in fact accurate and I was free to create blocks of any size. I made and printed many thinner 2x3 blocks.</p>
 
 <a download href="./2x3block.f3d"> Download my 2x3 Block Fusion File </a>
 
@@ -45,11 +60,15 @@ Here is a [link to my week 2 page](https://ltheander.github.io/ps70_assignments/
 
 <a download href="./2x3block.gcode"> Download my 2x3 Block Gcode </a>
 
+<p>I then made a single 4x4 block that allows for many connections</p>
+
 <a download href="./4x4block.f3d"> Download my 4x4 Block Fusion File </a>
 
 <a download href="./4x4block.stl"> Download my 4x4 Block STL File </a>
 
 <a download href="./4x4block.gcode"> Download my 4x4 Block Gcode </a>
+
+<p>And a single 8x8 block to act as a base for my sculpture.</p>
 
 <a download href="./8x8block.f3d"> Download my 8x8 Block Fusion File </a>
 
@@ -57,26 +76,49 @@ Here is a [link to my week 2 page](https://ltheander.github.io/ps70_assignments/
 
 <a download href="./8x8block.gcode"> Download my 8x8 Block Gcode </a>
 
+<h3>Setbacks</h3>
+
+<p>This is what a successful print looks like.</p>
+
 <video width="600" height="800" autoplay muted>
   <source src="3dprinter.mp4" type="video/mp4">
   <source src="movie.ogg" type="video/ogg">
 Your browser does not support the video tag.
 </video>
 
+<p>And this is what an unsuccessful print looks like.</p>
+
 ![image of skewed lego](./legomess.jpg)
+
+<p>My prints experienced several types of failures. Some, like the one shown before, involved slipping which caused the printer to lay down material in the wrong location.</p>
+
+<p>Some failures were in part due to the z-axis being improperly adjusted, meaning the printer was either not getting material close enough to the part, causing printed "spaghetti" to form or was too close and dragged the part across the platform.</p>
 
 ![image of lego with spaghetti top](./legomess1.jpg)
 
+<p>At one point, I tried to print several of the 2x2 bricks at once using the copy feature in prusa. However, this failed several times as the material wasn't sticking to the platform very well. To fix this, I tried adding brims to the bricks. </p>
+
 <a download href="./2x2up.gcode"> Download my Grid of 2x2 Blocks Gcode </a>
+
+<p>Despite this correction, the print process still failed due to smaller interior layers not fully sticking. Eventually, I had to resort to printing one or two pieces at a time to minimize the effect of errors.</p>
 
 ![image of brims all stuck together](./legomess2.jpg)
 
+<p>Here is a tree I created part-way through the printing process with my 3D printed legos. After making this, I decided that I wanted more complexity in my design, leading me to print more pieces.</p>
+
 ![image of the first iteration of the tree](./firsttree.jpg)
+
+<p>After printing more pieces, I made this house-like structure...</p>
 
 ![image of the house-like structure](./house.jpg)
 
+<p>And this much more complex tree. </p>
+
 ![image of my final tree](./treefin.jpg)
 
+<p>Compared to the tree that I made during week two out of 2D parts, this tree made of 3D parts is much more complex. Additionally, it has a lot more degrees of freedom for movement as bricks can combine in any number ways compared to how the 2D design can only connect in a couple of locations. I am excited to continue to use the 3D printers in later weeks to make complex, precise parts that could not be created in subtractive methods to the level of accuracy the 3D printer allows.</p>
+
+![image of my tree from week 2](./Sculp3pic.jpg)
 
 Here is a	[link to where the cover image came from](https://anthillonline.com/3d-printing-affect-australian-patent-system//).
 
