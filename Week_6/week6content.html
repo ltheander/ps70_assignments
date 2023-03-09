@@ -29,21 +29,15 @@
 
 <h3>Pitch Controling Photoresistor</h3>
 
-<p>Schematic</p>
-
-<p>For my non-capactitive sensor this week, I wanted to use a photoresistor. I also wanted to start getting used to programming an arduino to make sound as my final project focuses on creating a musical instrument. I decided to create a circuit that produces sound and changes pitch based on how much light is hitting the sensor.</p>
+<p>For my non-capactitive sensor this week, I wanted to use a photoresistor. I also wanted to start getting used to programming an arduino to make sound as my final project focuses on creating a musical instrument. I decided to create a circuit that produces sound and changes pitch based on how much light is hitting the sensor. After doing some research with the arduino tonePitchFollower example, I was able to build this circuit with complimentary code that produces higher pitch sounds with higher light levels and lower pitch sounds with lower light levels.</p>
 
 ![image of photoresistor circuit](./circuit1.jpg)
 
-<p></p>
+<p>Here is a schematic of this same system for simplicity.</p>
 
-![image of set up of photoresistor and ruler](./setup1.jpg)
+![schematic of photoresistor](./lights.jpg)
 
-<p></p>
-
-![image of photoreceptor and light blocking apparatus](./setup2.jpg)
-
-<p></p>
+<p>Here is a video of how the photoresistor responds to different light levels by playing different pitches.</p>
 
 <video width="600" height="800" controls>
   <source src="light.mp4" type="video/mp4">
@@ -51,29 +45,49 @@
 Your browser does not support the video tag.
 </video>
 
-<p>Graph</p>
+<p>In order to measure how different levels of light affect this system, I designed a simple test. Using a ruler and a light blocking apparatus, I would record both the direct recorded output of the photoresistor in arduino and the hertz tone that was produced when the light blocking apparatus was placed at varying heights. I did several things to standardize the system and decrease the effect of unaccounted for variables. One, I used a 15 by 15 cm wooden piece that was impervious to light for every experiment. Two, I made sure to run every test directly under an overhead light without moving to minimize the effect of different light angles causing different outputs. Third, I used a piece of tape to make sure that I always keep the ruler and wooden light blocking apparatus in exactly the same location directly above the photoresistor.</p>
+
+![image of set up of photoresistor and ruler](./setup1.jpg)
+
+<br>
+
+![image of photoresistor and light blocking apparatus](./setup2.jpg)
+
+<p>I recorded both the units of light reported by the photoresistor and the hertz played on the speaker (using a tuner) for 9 heights between 37.2 and 4.2 cm away from the photoresistor. I then compiled the results in excel to create the following graphs.</p>
+
+![graph of the photoresistor outputs](./graph1.jpg)
+
+![graph of the frequency outputs of the speaker](./graph2.jpg)
+
+<p>Both the light level perceived by the photoresistor and the frequency output of the speaker decreased as the distance the light blocking apparatus was placed away from the photoresistor decreased. By plotting both of these outputs that are directly related, I am able to test that the results line up, showing that there were not significant errors during data collection.</p>
+
+<br>
 
 <h3>Capacitive Angle Sensor</h3>
 
-<p>Schematic</p>
+<p>For the other part of this assignment, we were tasked with creating a capacitive sensor. During class, we looked at several different example projects that capacitive sensing could be used for. One or two of the projects were based not on the distance between the pieces of metal, but instead on the amount of overlapping area between them. This gave me the idea to create a capacitive sensor that measures the capacitive ability based on the amount of overlap that two rotating pieces of copper have. A useful proxy for the amount of overlapping area is the angle of the two objects in relation to one another. If they are sitting directly on top of one another, the angle is zero degrees and the overlap is at a maximum; if they are pointing in opposite directions so that the angle between them is 180 degrees, the overlap is at a minimum.</p>
 
-<p></p>
+<p>To create this system, I took a tongue depressor, cut it in half, and drilled a hole large enough for a M4 screw through both pieces. I then put one wooden stick onto a M4 screw, put a M4 washer on, put the other wooden stick on, and then closed the system with a locking M4 nut. This system allows the wooden sticks to freely spin. This is what this looks like from above.</p>
 
 ![image of rotating sticks](./sticks.jpg)
 
-<p></p>
+<p>And from the side.</p>
 
 ![image of connection of rotating sticks](./mech.jpg)
 
-<p></p>
+<p>I then stuck a piece of copper on each piece of the tongue depressor.</p>
 
 ![image of copper on the rotating sticks](./sticks1.jpg)
 
-<p></p>
+<p>Then, using the example code for Tx-Rx capacitive sensing given on the website (minus the delay function), I created this very simple circuit to measure capacitance.</p>
 
 ![image of capacitive circuit](./circuit2.jpg)
 
-<p></p>
+<p>Here is a simple schematic of the same system.</p>
+
+![schematic of capacitive circuit](./caps.jpg)
+
+<p>This video shows how the outputs of the capacitive sensor changes when the angle between the two copper pieces decreases, meaning that the overlapping area increases.</p>
 
 <video width="600" height="800" controls muted>
   <source src="cap.mp4" type="video/mp4">
@@ -81,7 +95,11 @@ Your browser does not support the video tag.
 Your browser does not support the video tag.
 </video>
 
-<p>Graph</p>
+<p>Using a protractor, I recorded the capacitance output of the system at 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, and 180 degrees and created a graph in excel with the resulting values.</p>
+
+![graph of capacitance output](./graph3.jpg)
+
+<p>As can be seen in this graph, capacitance decreases as the angle between the wooden sticks increases, meaning that as predicted, capacitance decreases as overlap decreases. </p>
 
 And here is a	[link to where the cover image came from](https://www.electronics-lab.com/project_tag/loc110//).
 
