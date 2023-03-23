@@ -142,6 +142,8 @@ void loop()
 
 <p>While this Arduino-based proto-keyboard does the job, it has several limitations. Along with only being able to play one note at a time, the Arduino only has a limited number of pins to work with. In fact, with this setup, only 11 pins can be attached, not even enough for a full octave. I considered two possible solutions for this second problem; one is to multiplex the Arduinos pins and the other is to use a microcontroller with more input pins.</p>
 
+<br>
+
 <h3>An ESP32-Based Proto-Keyboard</h3>
 
 <p>To get used to the ESP32 for future assignments, I decided to attempt to fix this problem using the ESP32 route. The circuit is extremely similar to the circuit for the Arduino, with the exception of having 13 instead of 11 buttons.</p>
@@ -290,6 +292,8 @@ Your browser does not support the video tag.
 <p>While this code does work as can be seen in the video, there are still several problems prevalent in the ESP32 proto-keyboard. For starters, even though the millis() function does allow for sound to be produced, the loop in which the millis() occurs is obvious. There is a tiny pause between each loop which produces an unsatisfactory sound. Additionally, once the millis() loop is initiated, the sound must play out in its entirety, even if the button is not longer being pressed </p>
 
 <p>While I do like how the ESP32 allows for a greater number of keyboard keys than the Arduino, I do not like how much more complex the code is and how the sound it produces is a much lower quality. Before my final project, I will have to work on multiplexing with the Arduino to get higher quality results with a greater number of pins.</p>
+
+<br>
 
 <h3>Oscilloscope</h3>
 
