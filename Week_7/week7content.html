@@ -36,7 +36,7 @@
 
 <p>I started by trying to make a proto-keyboard using an Arduino. The circuitry is fairly simple; a buzzer and each button is connected to ground and its own pin. When a button is pressed, a circuit is completed and the pin reads as low. Here is a picture of how the Arduino circuit works.</p>
 
-![image of arduino circuit](./IMG-5088.jpg)
+![image of the arduino circuit](./IMG-5088.jpg)
 
 <p>The code is simple as well; when a circuit is connected and the pin reads as low, the buzzer produces sound according to which pin is low.</p>
 
@@ -142,7 +142,7 @@ void loop()
 
 <p>While this Arduino-based proto-keyboard does the job, it has several limitations. Along with only being able to play one note at a time, the Arduino only has a limited number of pins to work with. In fact, with this setup, only 11 pins can be attached, not even enough for a full octave. I considered two possible solutions for this second problem; one is to multiplex the Arduinos pins and the other is to use a microcontroller with more input pins.</p>
 
-<br>
+<br> 
 
 <h3>An ESP32-Based Proto-Keyboard</h3>
 
@@ -293,7 +293,7 @@ Your browser does not support the video tag.
 
 <p>While I do like how the ESP32 allows for a greater number of keyboard keys than the Arduino, I do not like how much more complex the code is and how the sound it produces is a much lower quality. Before my final project, I will have to work on multiplexing with the Arduino to get higher quality results with a greater number of pins.</p>
 
-<br>
+<br> 
 
 <h3>Oscilloscope</h3>
 
@@ -301,7 +301,7 @@ Your browser does not support the video tag.
 <p>Using the oscilloscope on the ESP32 proto-keyboard produces interesting, yet unsurprising results. When the oscilloscope is plugged into the buzzer and the ground, the frequency shown on the oscilloscope matches the frequency of the note played.</p>
 ![image of oscilloscope](./IMG_5987.jpg)
 
-<br>
+<br> 
 
 <video width="600" height="800" controls>
   <source src="osvid.mp4" type="video/mp4">
