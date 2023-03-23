@@ -4,7 +4,10 @@
 <title>PS70: Intro to Digital Fabrication </title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/arduino-light.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/arduino.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div style="align-items: left; justify-content:left;" class="container-fluid">
@@ -24,10 +27,257 @@
 <br> 
 
 #### Week 7: Electronic Output Devices 
+ 
+ <br>
 
-Here is an image (will be replaced by image of completed assignment): 
+ <h3>An ESP32 Based Functional Keyboard</h3>
 
-![image of assorted output devices](./week7pic.jpg)
+![image of arduino circuit](./IMG_5088.jpg)
+
+<pre><code><p style="text-align: left;">
+#define T_A 220
+#define T_AB 233.08
+#define T_B 246.94
+#define T_C 261.63
+#define T_CD 277.18
+#define T_D 293.66
+#define T_DE 311.13
+#define T_E 329.63
+#define T_F 349.23
+#define T_FG 369.99
+#define T_G 392
+
+const int A = 2;
+const int AB = 3;
+const int B = 4;
+const int C = 5;
+const int CD = 6;
+const int D = 7;
+const int DE = 8;
+const int E = 9;
+const int F = 10;
+const int FG = 12;
+const int G = 13;
+const int Buzz = 11;
+
+void setup()
+{
+  pinMode(A, INPUT);
+  digitalWrite(A,HIGH);
+
+  pinMode(AB, INPUT);
+  digitalWrite(AB,HIGH);
+  
+  pinMode(B, INPUT);
+  digitalWrite(B,HIGH);
+
+  pinMode(C, INPUT);
+  digitalWrite(C,HIGH);
+
+  pinMode(CD, INPUT);
+  digitalWrite(CD,HIGH);
+  
+  pinMode(D, INPUT);
+  digitalWrite(D,HIGH);
+
+  pinMode(DE, INPUT);
+  digitalWrite(DE,HIGH);
+  
+  pinMode(E, INPUT);
+  digitalWrite(E,HIGH);
+  
+  pinMode(F, INPUT);
+  digitalWrite(F,HIGH);
+
+  pinMode(FG, INPUT);
+  digitalWrite(FG,HIGH);
+  
+  pinMode(G, INPUT);
+  digitalWrite(G,HIGH);
+}
+void loop()
+{
+  while(digitalRead(A) == LOW)
+  {tone(Buzz,T_A);}
+
+  while(digitalRead(AB) == LOW)
+  {tone(Buzz,T_AB);}
+
+  while(digitalRead(B) == LOW)
+  {tone(Buzz,T_B);}
+
+  while(digitalRead(C) == LOW)
+  {tone(Buzz,T_C);}
+
+  while(digitalRead(CD) == LOW)
+  {tone(Buzz,T_CD);}
+
+  while(digitalRead(D) == LOW)
+  {tone(Buzz,T_D);}
+
+  while(digitalRead(DE) == LOW)
+  {tone(Buzz,T_DE);}
+
+  while(digitalRead(E) == LOW)
+  {tone(Buzz,T_E);}
+
+  while(digitalRead(F) == LOW)
+  {tone(Buzz,T_F);}
+
+  while(digitalRead(FG) == LOW)
+  {tone(Buzz,T_FG);}
+
+  while(digitalRead(G) == LOW)
+  {tone(Buzz,T_G);}
+  
+  noTone(Buzz);
+}
+</p></code></pre>
+
+![image of circuit](./IMG_5982.jpg)
+
+<pre><code><p style="text-align: left;">
+int freq = 2000;
+int channel = 0;
+int resolution = 8;
+int period = 200;
+unsigned long time_now = 0;
+
+void setup() {
+  Serial.begin(115200);
+  ledcSetup(channel, freq, resolution);
+  ledcAttachPin(14, channel);
+  pinMode(1,INPUT_PULLUP);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
+  pinMode(6, INPUT_PULLUP);
+  pinMode(7, INPUT_PULLUP);
+  pinMode(8, INPUT_PULLUP);
+  pinMode(9, INPUT_PULLUP);
+  pinMode(10, INPUT_PULLUP);
+  pinMode(11, INPUT_PULLUP);
+  pinMode(12, INPUT_PULLUP);
+  pinMode(13, INPUT_PULLUP);
+}
+void loop() {
+  while(digitalRead(1)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 261.63);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(2)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 277.18);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(3)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 293.66);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(4)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 311.13);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(5)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 329.63);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  
+  while(digitalRead(6)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 349.23);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  } 
+  while(digitalRead(7)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 369.99);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+    
+  while(digitalRead(8)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 392);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  } 
+  while(digitalRead(9)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 415.30);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  } 
+  while(digitalRead(10)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 440);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(11)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 466.16);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(12)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 493.88);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+    
+  while(digitalRead(13)==0){
+    time_now = millis();
+    ledcWriteTone(channel, 523.25);
+    while(millis() < time_now + period){
+      Serial.print("waste time");
+    }
+  }
+  while(digitalRead(1)!=0 && digitalRead(2)!=0 && digitalRead(3)!=0 && digitalRead(4)!=0 
+  && digitalRead(5)!=0 && digitalRead(6)!=0 && digitalRead(7)!=0 && digitalRead(8)!=0 
+  && digitalRead(9)!=0 && digitalRead(10)!=0 && digitalRead(11)!=0 && digitalRead(12)!=0 && digitalRead(13)!=0){
+    ledcWriteTone(channel, 0);
+    Serial.print("while loop 3");}
+}
+
+</p></code></pre>
+
+<video width="600" height="800" controls>
+  <source src="muvid.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+![image of oscilloscope](./IMG_5987.jpg)
+
+<video width="600" height="800" controls>
+  <source src="osvid.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
 
 And here is a	[link to where the cover image came from](https://www.repairmagic.ca/components-desktop-computers/output-devices//).
 
