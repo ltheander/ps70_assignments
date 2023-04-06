@@ -25,9 +25,128 @@
 
 #### Week 9: Radio, WiFi, and Bluetooth (loT)
 
-Here is an image (will be replaced by image of completed assignment): 
+<br>
 
-![image of wifi signal](./week9pic.jpg)
+<h3>Gathering Ideas</h3>
+
+<p></p>
+
+<h3>Building the Pieces</h3>
+
+<p></p>
+
+![image of wifi signal](./Shoot.jpg)
+
+<p></p>
+
+![image of wifi signal](./Circuit.jpg)
+
+<p></p>
+
+![image of wifi signal](./Face.jpg)
+
+<h3>Producing the Code</h3>
+
+<p></p>
+
+<pre><code><p style="text-align: left;">
+import cv2
+import serial
+
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+cap = cv2.VideoCapture(0)
+
+ser = serial.Serial('/dev/cu.usbserial-14120', 115200)
+
+while True:
+    _,img = cap.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.1, 12)
+
+    for (x,y,w,h) in faces:
+        print(x,y,w,h)
+        x = int(x)
+        y = int(y)
+        w = int(w)
+        h = int(h)
+
+        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+
+    cv2.imshow('img', img)
+    data = len(faces)
+    ser.write(str(data).encode())
+
+    k = cv2.waitKey(30) & 0xff
+    if k == 27:
+        break
+cap.release()
+</p></code></pre>
+
+<p></p>
+
+<pre><code><p style="text-align: left;">
+
+#include <ESP32Servo.h>
+
+Servo myservo;  //  create servo object to control a servo
+// 16 servo objects can be created on the ESP32
+
+int pos = 0;    // variable to store the servo position
+
+
+int servoPin = 17;
+int buttonPin = 15;
+
+void setup() {  
+  // Allow allocation of all timers
+  ESP32PWM::allocateTimer(0);
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+  myservo.setPeriodHertz(50);    // standard 50 hz servo
+  myservo.attach(servoPin, 1000, 2000); // attaches the servo on pin 18 to the servo object
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // using default min/max of 1000us and 2000us
+  // different servos may require different min/max settings
+  // for an accurate 0 to 180 sweep
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin);
+  if (buttonState == LOW) {
+  for (pos = 0; pos <= 180; pos += 2) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);    // tell servo to go to position in variable 'pos'
+    delay(10);             // waits 15ms for the servo to reach the position
+  }
+  for (pos = 180; pos >= 0; pos -= 2) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);    // tell servo to go to position in variable 'pos'
+    delay(10);             // waits 15ms for the servo to reach the position
+  }
+  delay(3000);
+}
+}
+</p></code></pre>
+
+<h3>Getting it to Work</h3>
+
+<p></p>
+
+<video width="600" height="800" controls>
+  <source src="Bobbyfront.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p></p>
+
+<video width="600" height="800" controls>
+  <source src="Bobbyback" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
 
 And here is a	[link to where the cover image came from](https://everydayenigmas.com/technology/wifi//).
 
