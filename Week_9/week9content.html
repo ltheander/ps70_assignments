@@ -29,25 +29,25 @@
 
 <h3>"Fire"-Base</h3>
 
-<p></p>
+<p>For this week's group project, Cindy, Bobby, and I worked together. While mind-numbingly scrolling through TikTok, I saw a design for an automatic rubber band shooter. This made me wonder if we could focus our project on the idea, using an input on one ESP32 to cause a rubber band to shoot using another device. After some discussion of ideas such as photoresistors, we came to the idea of using facial detection on one device that would send an update to FireBase which would be read by another microcontroller triggering the rubber band.</p>
 
 <h3>Building the Pieces</h3>
 
-<p></p>
+<p>The design of the rubber band shooter was quite simple, consisting of a wooden board, a servo motor, a rubber band, an aiming stick, and a notch for ease of rubber band use. While Bobby worked on the facial detection, I built the rubber band shooter and built the code to make the rubber band launch given an input (a button at first).</p>
 
 ![image of wifi signal](./Shoot.jpg)
 
-<p></p>
+<p>The circuit was simple, containing only a ground, a pin, and 3V power. These connected directly to the servo cord.</p>
 
 ![image of wifi signal](./Circuit.jpg)
 
-<p></p>
+<p>Here is what the facial detection looks like in practice. The microcontroller connected to the computer which the camera was on only updates the boolean in FireBase to be true if faces are detected for over 60% of frames in a five or ten second time interval to prevent misfires. </p>
 
 ![image of wifi signal](./Face.jpg)
 
 <h3>Producing the Code</h3>
 
-<p></p>
+<p>Here is the python code that was used for the facial detection.</p>
 
 <pre><code><p style="text-align: left;">
 import cv2
@@ -83,7 +83,7 @@ while True:
 cap.release()
 </p></code></pre>
 
-<p></p>
+<p>And here is the Arduino code that connects the FireBase (created by Cindy) to the second microcontroller and actually fires the rubber band.</p>
 
 <pre><code><p style="text-align: left;">
 
@@ -132,7 +132,7 @@ void loop() {
 
 <h3>Getting it to Work</h3>
 
-<p>Here is a video of the system at work. Once the facial recognition is turned on and detects a face, Bobby's microcontroller updates the Firebase shown on Cindy's computer. When the Firebase updates (as seen in the video), my microcontroller reads the change and triggers the rubber band shooter.</p>
+<p>Here is a video of the system at work. Once the facial recognition is turned on and detects a face, Bobby's microcontroller updates the Firebase shown on Cindy's computer. When the Firebase updates to true (as seen in the video), my microcontroller reads the change and triggers the rubber band shooter.</p>
 
 <video width="600" height="800" controls>
   <source src="Bobbyfront.mp4" type="video/mp4">
