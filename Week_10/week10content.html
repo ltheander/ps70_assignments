@@ -25,9 +25,108 @@
 
 #### Week 10: Machine Building and End Effectors
 
-Here is an image (will be replaced by image of completed assignment): 
+<br>
 
-![image of end effector](./week10pic.jpg)
+<h3>MVP: Figuring Out How to Use More Buttons Than The Arduino Has Pins</h3>
+
+<p></p>
+
+<h3>Idea One: Multiplexing</h3>
+
+<p></p>
+
+![image of messy circuit](./oldcirc0.jpg)
+
+<p></p>
+
+![image of neat but not working circuit](./oldcirc.jpg)
+
+<h3>Idea Two: Voltage Divider</h3>
+
+<p></p>
+
+![image of voltage divided circuit](./newcirc.jpg)
+
+<p></p>
+
+<pre><code><p style="text-align: left;">
+
+#define T_A 220 * 2
+#define T_AB 233.08 * 2
+#define T_B 246.94 * 2
+#define T_C 261.63*2
+#define T_CD 277.18*2
+#define T_D 293.66*2
+#define T_DE 311.13*2
+#define T_E 329.63*2
+#define T_F 349.23*2
+#define T_FG 369.99*2
+#define T_G 392*2
+#define T_A4 440*2
+
+const int Buzz = 11;
+
+void setup()
+{
+Serial.begin(9600);
+  
+}
+
+void loop()
+{
+  while((analogRead(A0) > 1009) && (analogRead(A0) < 1018))
+  {
+    tone(Buzz,T_A);
+  }
+ while((analogRead(A0) > 1000) && (analogRead(A0) < 1008))
+  {
+    tone(Buzz,T_B);
+  }
+  while((analogRead(A0) > 985) && (analogRead(A0) < 999))
+  {
+    tone(Buzz,T_C);
+  }
+  while((analogRead(A0) > 950) && (analogRead(A0) < 984))
+  {
+    tone(Buzz,T_D);
+  }
+  while((analogRead(A0) > 900) && (analogRead(A0) < 945))
+  {
+    tone(Buzz,T_E);
+  }
+  while((analogRead(A0) > 830) && (analogRead(A0) < 880))
+  {
+    tone(Buzz,T_F);
+  }
+  while((analogRead(A0) > 750) && (analogRead(A0) < 800))
+  {
+    tone(Buzz,T_G);
+  }
+  while((analogRead(A0) > 670) && (analogRead(A0) < 730))
+  {
+    tone(Buzz,T_A4);
+  }
+
+  noTone(Buzz);
+
+}
+
+</p></code></pre>
+
+<p></p>
+
+<video width="600" height="800" controls>
+  <source src= "IMG-6268.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p></p>
+
+![image of original keyboard design](./oldkey.jpg)
+
+<p></p>
+
 
 And here is a	[link to where the cover image came from](https://columbiaokura.com/thought-leadership/types-robotic-end-effectors-end-arm-tools//).
 
