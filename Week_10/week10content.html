@@ -29,25 +29,27 @@
 
 <h3>MVP: Figuring Out How to Use More Buttons Than The Arduino Has Pins</h3>
 
-<p></p>
+<p>One of the largest problems I have had while designing my final project has been figuring out how to use many buttons (25 needed for the keyboard keys alone) when microcontrollers only have a limited number. I first tried solving this problem in week 7 by using the ESP32 2hich has more pins than the Arduino. However, this did not work as weel as I hoped and produced an unpleasant sound. I needed a better idea.</p>
 
 <h3>Idea One: Multiplexing</h3>
 
-<p></p>
+<p>The idea that I first learned about was multiplexing, or assigning each input a series of 1's and 0's (4 in a 16 channel multiplexer). This was the first design, based off of an online tutorial for using 16 buttons with an Arduino.</p>
 
 ![image of messy circuit](./oldcirc0.jpg)
 
-<p></p>
+<p>There were two major problems with this circuit. First, it is incredibly messy with wires going in every which direction. Second, it didn't work. Even after stripping the circuit to the bare minimum, I could not get a single button to reliably read through the microcontroller. I decided to try again with a much simpler circuit also from an online tutorial.</p>
 
 ![image of neat but not working circuit](./oldcirc.jpg)
 
+<p>Unfortunately, this circuit still did not. After about four hours of trying with the help of Ibrahim, Kassia, Bella, and every possible online tutorial, I could not get multiplexing to work in the slightest. I even tried replacing the microcontroller with a brand new one and still no luck. Eventually, I had to start anew with a brand new idea... again.</p>
+
 <h3>Idea Two: Voltage Divider</h3>
 
-<p></p>
+<p>After ranting about my problems to a friend, I was introduced to the idea of voltage dividing, or using resistors of different values to allow for multiple buttons with only one non-power or ground pin. After playing around with the idea, this is the circuit that I got.</p>
 
 ![image of voltage divided circuit](./newcirc.jpg)
 
-<p></p>
+<p>And here is the code I developed to play a different pitch on a piezo buzzer for each button that is pushed.</p>
 
 <pre><code><p style="text-align: left;">
 
@@ -113,7 +115,7 @@ void loop()
 
 </p></code></pre>
 
-<p></p>
+<p>Here is this system in action.</p>
 
 <video width="600" height="800" controls>
   <source src= "IMG-6268.mp4" type="video/mp4">
@@ -121,12 +123,9 @@ void loop()
 Your browser does not support the video tag.
 </video>
 
-<p></p>
+<p>Voltage dividing will be the easiest and most efficient way for me to use the 25 total buttons needed for my circuit. I will be able to combine one or two of these voltage divided circuits using analog pins with the circuit I made a few weeks ago (below) using digital pins to make a keyboard with all the buttons I need. </p>
 
 ![image of original keyboard design](./oldkey.jpg)
-
-<p></p>
-
 
 And here is a	[link to where the cover image came from](https://columbiaokura.com/thought-leadership/types-robotic-end-effectors-end-arm-tools//).
 
