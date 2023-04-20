@@ -25,9 +25,356 @@
 
 #### Week 11: Computer Programming
 
-Here is an image (will be replaced by image of completed assignment): 
+<br>
 
-![image of guy working at computer](./week11pic.jpg)
+<h3>MVP Stage 2: Getting the Game Working</h3>
+
+<p>Last week, I created a voltage divided circuit that allowed me to utilize 8 buttons on a single analog pin. When one of the buttons was pressed, a frequency was produced via buzzer, essentially creating a mini keyboard with 8 notes. This week, I wanted to expand on this project by increasing the number of buttons to 25. I also wanted to implement a small memory game to develop my idea of a player having to press only notes in the selected key.</p>
+
+<h3>Mode 1 1: Working Keyboard</h3>
+
+<p>I decided to start with extending the keyboard to include 25 buttons. This is what this still messy circuit looks like.</p>
+
+![image of messy circuit](./protocirc.jpg)
+
+<p>The following code (from last week) still only controls the first 8 buttons, but by hard coding in the frequencies and ranges for each button (which would make the code approximately 3 times as long) we could get the full working code.</p>
+
+<pre><code><p style="text-align: left;">
+
+#define T_A 220 * 2
+#define T_AB 233.08 * 2
+#define T_B 246.94 * 2
+#define T_C 261.63*2
+#define T_CD 277.18*2
+#define T_D 293.66*2
+#define T_DE 311.13*2
+#define T_E 329.63*2
+#define T_F 349.23*2
+#define T_FG 369.99*2
+#define T_G 392*2
+#define T_A4 440*2
+
+const int Buzz = 11;
+
+void setup()
+{
+Serial.begin(9600);
+  
+}
+
+void loop()
+{
+  while((analogRead(A0) > 1009) && (analogRead(A0) < 1018))
+  {
+    tone(Buzz,T_A);
+  }
+ while((analogRead(A0) > 1000) && (analogRead(A0) < 1008))
+  {
+    tone(Buzz,T_B);
+  }
+  while((analogRead(A0) > 985) && (analogRead(A0) < 999))
+  {
+    tone(Buzz,T_C);
+  }
+  while((analogRead(A0) > 950) && (analogRead(A0) < 984))
+  {
+    tone(Buzz,T_D);
+  }
+  while((analogRead(A0) > 900) && (analogRead(A0) < 945))
+  {
+    tone(Buzz,T_E);
+  }
+  while((analogRead(A0) > 830) && (analogRead(A0) < 880))
+  {
+    tone(Buzz,T_F);
+  }
+  while((analogRead(A0) > 750) && (analogRead(A0) < 800))
+  {
+    tone(Buzz,T_G);
+  }
+  while((analogRead(A0) > 670) && (analogRead(A0) < 730))
+  {
+    tone(Buzz,T_A4);
+  }
+
+  noTone(Buzz);
+
+}
+
+</p></code></pre>
+
+<p>While this code and circuit technically fulfill the requirements of having a fully functional keyboard, both the code and the circuit are extremely messy. The first major project I undertook this week was attempting to streamline the code to both be shorter and to run faster. Instead of hard coding the entire code block to work for my code, I created a function that performs the same function when the ranges and frequencies are inputted via list. This just makes the code much shorter and neater and can work for any button ranges and frequencies.</p>
+
+<pre><code><p style="text-align: left;">
+
+
+const int Buzz = 11;
+
+int thresholds2[9][3] = {{600, 660, 466.16}, {661, 730, 523.25}, {731, 800, 493.88}, {801, 880, 440}, {881, 945, 415.3}, {946, 984, 392}, {985, 999, 369.99}, {1000, 1008, 349.23}, {1009, 1023, 329.63}};
+int thresholds1[8][3] = {{661, 730, 311.13}, {731, 800, 293.66}, {801, 880, 277.18}, {881, 945, 261.63}, {946, 984, 246.94}, {985, 999, 233.08}, {1000, 1008, 220}, {1009, 1023, 207.67}};
+int thresholds0[8][3] = {{661, 730, 196}, {731, 800, 185}, {801, 880, 174.61}, {881, 945, 164.81}, {946, 984, 155.56}, {985, 999, 146.83}, {1000, 1008, 138.59}, {1009, 1023, 130.81}};
+
+void setup()
+{
+Serial.begin(9600); 
+}
+
+void loop()
+{
+  int curVal0 = analogRead(A0);
+  int curVal1 = analogRead(A1);
+  int curVal2 = analogRead(A2);
+    for(int i = 0; i < 9; i++) {
+    while((analogRead(A2) > thresholds2[i][0]) && (analogRead(A2) < thresholds2[i][1]))
+    {
+      tone(Buzz,thresholds2[i][2]);
+    }
+     for(int i = 0; i < 8; i++) {
+    while((analogRead(A0) > thresholds0[i][0]) && (analogRead(A0) < thresholds0[i][1]))
+    {
+      tone(Buzz,thresholds0[i][2]);
+    }
+     for(int i = 0; i < 8; i++) {
+    while((analogRead(A1) > thresholds1[i][0]) && (analogRead(A1) < thresholds1[i][1]))
+    {
+      tone(Buzz,thresholds1[i][2]);}
+    }
+  }
+    }
+    noTone(Buzz);
+}
+
+</p></code></pre>
+
+<p>Here is a video showing this code in action. Note the newly rewired circuit that utilizes two-pronged buttons instead of four-pronged to seperate the buttons from the wiring for ease of pressing and for neatness.</p>
+
+<video width="600" height="800" controls>
+  <source src= "sound.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p>While it took me much longer than I would have wished, I was able to create much neater code that produces a keyboard with 25 notes.</p>
+
+<h3>Mode 2: Pressing The Right Buttons</h3>
+
+<p>The second, and much more significant project that I undertook this week was producing a game with the keyboard. Given the key of C major via list, only notes in the list are considered correct when pressed. More specifically, if a note that is in the key is pressed, a green light turns on. If a note that is not in the key is pressed, a red light turns on and the game ends.</p>
+
+<p>At first, I wanted the player to have to play the notes in the correct order. This is the code that was the product of many hours of work.</p>
+
+<pre><code><p style="text-align: left;">
+
+int greenLed = 5;  // green LED is connected to pin 5
+int redLed = 6;    // red LED is connected to pin 6
+
+int thresholds1[8][3] = {{661, 730, 311.13}, {731, 800, 293.66}, {801, 880, 277.18}, {881, 945, 261.63}, {946, 984, 246.94}, {985, 999, 233.08}, {1000, 1008, 220}, {1009, 1023, 207.67}};
+int thresholds0[8][3] = {{661, 730, 196}, {731, 800, 185}, {801, 880, 174.61}, {881, 945, 164.81}, {946, 984, 155.56}, {985, 999, 146.83}, {1000, 1008, 138.59}, {1009, 1023, 130.81}};
+
+int cmaj [8][3] = {{1009, 1023, 130.81}, {985, 999, 146.83}, {881, 945, 164.81}, {801, 880, 174.61}, {661, 730, 196}, {1000, 1008, 220}, {946, 984, 246.94}, {881, 945, 261.63}};
+
+bool button1Pressed = false;
+bool button2Pressed = false;
+bool button3Pressed = false;
+bool gameInProgress = false;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(greenLed, OUTPUT);        // set green LED as an output
+  pinMode(redLed, OUTPUT);          // set red LED as an output
+}
+
+void loop() {
+  int curVal0 = analogRead(A0);
+
+  digitalWrite(greenLed, LOW);      // turn off green LED
+  digitalWrite(redLed, LOW);        // turn off red LED
+  
+  if (!gameInProgress && curVal0 > 1009 && curVal0 < 1023) {    // if button 1 is pressed to start the game
+    button1Pressed = true;
+    gameInProgress = true;
+  }
+  
+  if (gameInProgress && curVal0 > 1000 && curVal0 < 1008) {    // if button 2 is pressed
+    if (button1Pressed == true) {       // check if button 1 was pressed first
+      button2Pressed = true;
+    } else {
+      gameInProgress = false;
+      button1Pressed = false;
+      button2Pressed = false;
+      button3Pressed = false;
+    }
+  }
+  
+  if (gameInProgress && curVal0 > 985 && curVal0 < 999) {    // if button 3 is pressed
+    if (button2Pressed == true) {       // check if button 2 was pressed first
+      button3Pressed = true;
+    } else {
+      gameInProgress = false;
+      button1Pressed = false;
+      button2Pressed = false;
+      button3Pressed = false;
+    }
+  }
+  
+  if (gameInProgress && button1Pressed == true && button2Pressed == true && button3Pressed == true) {
+    digitalWrite(greenLed, HIGH);     // turn on green LED
+    digitalWrite(redLed, LOW);        // turn off red LED
+    delay(1000);                      // wait for one second
+    digitalWrite(greenLed, LOW);      // turn off green LED
+    digitalWrite(redLed, LOW);       // turn on red LED
+    gameInProgress = false;           // reset the game
+    button1Pressed = false;
+    button2Pressed = false;
+    button3Pressed = false;
+  } else if (gameInProgress && curVal0 > 0 && curVal0 < 980) { // if any other button is pressed, turn on the red LED
+    digitalWrite(greenLed, LOW);        // turn off green LED
+    digitalWrite(redLed, HIGH);         // turn on red LED
+  }
+
+}
+
+</p></code></pre>
+
+<p>Here is how this system runs... when conditions are right.</p>
+
+<video width="600" height="800" controls>
+  <source src= "oldcodesucc.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p>Unfortunately, even after hours of work, this code did not function as well as I wanted. If a button was pressed in the wrong order, the game did not end and even worse pressing any wrong button after a non-order press didn't cause a failure either. Here is an example of this code's failures.</p>
+
+<video width="600" height="800" controls>
+  <source src= "oldcodefail.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p>Along with not working as I wanted it to, this code was inefficient and relied on hard-coded values, making it difficult to extend to other keys. Because of this, I decided to reassess how I wanted to approach the problem. </p>
+
+<p>I decided that the player does not have to press the buttons in the correct order, after all, the order simply follows a left to right pattern so knowing the notes in the key is sufficient or even better than having to press the notes in a left to right order. After another couple hours of coding, I was able to produce this code.</p>
+
+<pre><code><p style="text-align: left;">
+
+// Define analog pins for each button range
+int button1_pin = 0;
+int button2_pin = 1;
+// Add more pins as needed for other buttons
+
+// Define digital pins for green and red lights
+int green_pin = 5;
+int red_pin = 6;
+
+// Create variable to store current button pressed
+int current_button = 0;
+
+// Create array of valid buttons for each button press
+int valid_buttons[15] = {
+  1, 3, 5, 6, 8, 10, 12, 13, 15, 17, 18, 20, 22, 24, 25 // valid buttons for button 1
+  // add more rows for other buttons
+};
+
+void setup() {
+  // Initialize digital pins
+  pinMode(green_pin, OUTPUT);
+  pinMode(red_pin, OUTPUT);
+}
+
+void loop() {
+  // Read analog values of buttons
+  int pin0 = analogRead(A0);
+  int pin1 = analogRead(A1);
+  int pin2 = analogRead(A2);
+  // Read more analog values as needed for other buttons
+  
+  // Determine which button is being pressed
+  if (pin0 >= 1009 && pin0 <= 1023) {
+    current_button = 1;
+  } else if (pin0 >= 1000 && pin0 <= 1008) {
+    current_button = 2;
+  } else if (pin0 >= 985 && pin0 <= 999) {
+    current_button = 3;
+  } else if (pin0 >= 946 && pin0 <= 984) {
+    current_button = 4;
+  } else if (pin0 >= 881 && pin0 <= 945) {
+    current_button = 5;
+  } else if (pin0 >= 801 && pin0 <= 880) {
+    current_button = 6;
+  } else if (pin0 >= 731 && pin0 <= 800) {
+    current_button = 7;
+  } else if (pin0 >= 661 && pin0 <= 730) {
+    current_button = 8;
+  } else if (pin1 >= 1009 && pin1 <= 1023) {
+    current_button = 9;
+  } else if (pin1 >= 1000 && pin1 <= 1008) {
+    current_button = 10;
+  } else if (pin1 >= 985 && pin1 <= 999) {
+    current_button = 11;
+  } else if (pin1 >= 946 && pin1 <= 984) {
+    current_button = 12;
+  } else if (pin1 >= 881 && pin1 <= 945) {
+    current_button = 13;
+  } else if (pin1 >= 801 && pin1 <= 880) {
+    current_button = 14;
+  } else if (pin1 >= 731 && pin1 <= 800) {
+    current_button = 15;
+  } else if (pin1 >= 661 && pin1 <= 730) {
+    current_button = 16;
+  } else if (pin2 >= 1009 && pin2 <= 1023) {
+    current_button = 17;
+  } else if (pin2 >= 1000 && pin2 <= 1008) {
+    current_button = 18;
+  } else if (pin2 >= 985 && pin2 <= 999) {
+    current_button = 19;
+  } else if (pin2 >= 946 && pin2 <= 984) {
+    current_button = 20;
+  } else if (pin2 >= 881 && pin2 <= 945) {
+    current_button = 21;
+  } else if (pin2 >= 801 && pin2 <= 880) {
+    current_button = 22;
+  } else if (pin2 >= 731 && pin2 <= 800) {
+    current_button = 24;
+  } else if (pin2 >= 661 && pin2 <= 730) {
+    current_button = 25;
+  } else if (pin2 >= 600 && pin2 <= 660) {
+    current_button = 23;
+  } 
+  
+   // Check if pressed button is valid
+  bool is_valid = false;
+  for (int i = 0; i < 15; i++) {
+    if (current_button == valid_buttons[i]) {
+      is_valid = true;
+      break;
+    }
+  }
+  
+  // Turn on green or red light based on validity of pressed button
+  if (is_valid) {
+    digitalWrite(green_pin, HIGH);
+    delay(500);
+    digitalWrite(green_pin, LOW);
+    current_button = 0;
+  } else if (current_button != 0) {
+    digitalWrite(red_pin, HIGH);
+    delay(1000);
+    digitalWrite(red_pin, LOW);
+    current_button = 0;
+  }
+  }
+
+</p></code></pre>
+
+<p>Here is this new code in action.</p>
+
+<video width="600" height="800" controls>
+  <source src= "newcode.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<p>Along with working better than the previous code blocks, this code is also more efficient. Importantly, this code will be much easier to convert to a function that can accept any key of notes. It should be relatively easy to combine the two projects this week to produce a game that also makes sound. This idea will continue to be developed for the final product along with adding a couple of other features.</p>
 
 And here is a	[link to where the cover image came from](https://extension.harvard.edu/academics/programs/programming-certificate//).
 
