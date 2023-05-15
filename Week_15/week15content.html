@@ -25,28 +25,291 @@
 
 #### Week 15: Final Project
 
-Here is an image (will be replaced by image of completed assignment): 
+<video width="600" height="800" controls>
+  <source src= "Product Pitch.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
 <br>
+<h3>The Idea Behind Melody Mentor</h3>
+<p>As a beginner musician, I am often left confused trying to remember all of the different major and minor scales. Try as I have to try and memorize each one, I have so far had to result to counting keys to accurately play scales. However, this is slow, far too slow for actual playing. To solve this problem and help me memorize scales, I have created the Melody Mentor. Along with testing your knowledge of scales, it also serves as a scaled down keyboard that can be played anywhere so long as you have access to an electric outlet.</p>
 <br>
-![image of keyboard with extra knobs](./week15pic.jpg)
-<br>
-<br>
-  <h3>Key Harmonic</h3>
 
-  <p>My current idea for my final project centers around music. I plan to make a keyboard-like instrument that is much smaller (15-20 notes). Unlike a typical keyboard this instrument's note change depending on certain inputs. A note can be given (sung or played) to the instrument and it will calculate the harmonic series based on it. Each note on the keyboard will correlate to a partial of the harmonic series. This instrument will be especially useful in harmony making from any given note and in overtone singing. If I have time, I may be able to make the instument have different settings such as showing major scales, pentatonic scales, etc. for a given note. On each key, there will be a movable locking mechanism so that one does not have to continuously hold a note they want to be played. Continuations of the project may include light up keys depending on which setting for scales is selected or a screen that gives the exact pitch of the given note.</p>
-  <br>
+<h3>The Process</h3>
+<p>For a more detailed process of this project, go to Week 14 and the affiliated pages there. Here's a quick glimpse in the evolution of this project.</p>
+<br>
 
-  <h3>2/16 Idea Update</h3>
-
-  <p>After discussing my final project idea, I have several updated thoughts on how to go about my project. To make my project more interactive and responsive, I have shifted my idea from less of an instrument into more than a training devices. On my keyboard-like device, I will be able to select from several musical scales or modes including the harmonic series and given a starting note, I will have to play the correct notes in order. The device will then tell me whether or not I did it correctly and will track my progress over time. I hope to still implement leds in the keys to light up the correct notes in a training mode. This is an example of how the design may work as far as scales and note selection go.</p>
-
-![image of keyboard with extra knobs](./FinalIdea.png)
-
-Here is a [link to where the 2/16 idea image came from](https://github.com/ZaneH/piano-trainer).
+![first design](./first.jpg)
 <br>
 <br>
+![second design](./second.jpg)
+<br>
+<br>
+![third design](./third.jpg)
+<br>
+<br>
+![fourth design](./fourth.jpg)
+<br>
+<br>
+![fifth design](./fifth.jpg)
+<br>
+<br>
+![sixth design](./sixth.jpg)
+<br>
+<br>
+![seventh design](./seventh.jpg)
+<br>
+<br>
+
+<h3>From the MVP to the Final Design</h3>
+
+<p>After the MVP was finished, I was left with a circuit that when manually given a list in the code, would tell whether notes pressed were in the list or not. I had a lot left to do before the final project showcase. The first thing I did was finish the game mode. As an inexperienced and inefficient coder, I turned my code inside out and upside down to translate the system from a single input to the current system where pressing a key initializes which list of notes is the correct list (scale). Instead of only being able to play with one key, I was now able to utilize 12 different keys.</p>
+
+<p>Then, I added a switch to switch between major keys and minor keys, extending the total number of playable keys to 24. Next, I added a switch that allows players to switch between the scale testing game and a free play mode that I also created. After experimenting for a long period of time with an OLED to display the current key, I decided to switch to using an LED strip to display the same information.</p>
+
+<p>Finally, after putting all of these circuitry and coding components together, I had a fully working project. The only thing left to do at that point was to encase the project and make it look like a finished result. After spending hours measuring and planning each piece of the design, I laser cut the main frame out of wood, 3D printed piano keys from Thingiverse, and assembled all of the pieces neatly so that wires would not fall out of place and disconnect once the main body was closed. This took much longer than what was expected but was well worth it. Here is the project demo again that shows the final result and the construction process.</p>
+<video width="600" height="800" controls>
+  <source src= "Product Pitch.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+<br>
+<h3>Support and Files</h3>
+
+<p>This project would not have been possible without the help of those around me and the internet. My peers and the teaching staff all helped me achieve my goals in this project. Online resources, particuarily the Arduino example pages, and the links that we were given to supporting pages were very useful. Also, I got the following STL file for the piano keys from IWorkInPixels on Thingiverse.</p>
+
+<a download href="./piano_keys.stl"> Download my Piano Keys STL File </a>
+
+<br>
+<h3>The Code</h3>
+
+<p>Here is the final code that is uploaded and stored on the Arduino. Note that ^ symbols replace > and < symbols as to not confuse Sublime.</p>
+
+<pre><code><p style="text-align: left;">
+
+#include ^FastLED.h^
+
+#define NUM_LEDS 14 // Number of LEDs in the strip
+#define DATA_PIN 11 // Pin connected to the data input of the LED strip
+
+CRGB leds[NUM_LEDS]; // Define the LED strip object
+
+int currentLED = 0; // Index of the currently lit LED
+
+int switchPin = 4;
+int switchPin2 = 7;
+const int Buzz = 10;
+int correctList[15];
+bool game_started = false;
+int switchState = 0;
+int switchState2 = 0;
+
+int buttonPins[25][2] = {
+  {1009, 1023}, {1000, 1008}, {985, 999}, {946, 984}, {881, 945},
+  {801, 880}, {731, 800}, {661, 730}, {1009, 1023}, {999, 1008},
+  {985, 998}, {946, 984}, {881, 945}, {801, 880}, {731, 800},
+  {661, 730}, {1009, 1023}, {1000, 1008}, {985, 999}, {946, 984},
+  {881, 945}, {801, 880}, {600, 660}, {731, 800}, {661, 730}};
+
+int green_pin = 5;
+int red_pin = 6;
+
+int current_button = 0;
+int tones[26] = {130.81, 138.59, 146.83, 155.56, 164.81, 174.61, 185, 196, 207.65, 220, 233.08, 246.94, 261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392, 415.3, 440, 466.16, 493.88, 523.25};
+
+int cmin[15] = {1, 3, 4, 6, 8, 9, 11, 13, 15, 16, 18, 20, 21, 23, 25};
+int cdmin[15] = {2, 4, 5, 7, 9, 10, 12, 14, 16, 17, 19, 21, 22, 24, 2};
+int dmin[15] = {3, 5, 6, 8, 10, 11, 13, 15, 17, 18, 20, 22, 23, 25, 1};
+int demin[15] = {4, 6, 7, 9, 11, 12, 14, 16, 18, 19, 21, 23, 24, 2, 4};
+int emin[15] = {5, 7, 8, 10, 12, 13, 15, 17, 19, 20, 22, 24, 25, 1, 3};
+int fmins[15] = {6, 8, 9, 11, 13, 14, 16, 18, 20, 21, 23, 25, 1, 2, 4};
+int fgmin[15] = {7, 9, 10, 12, 14, 15, 17, 19, 21, 22, 24, 2, 3, 5, 7};
+int gmin[15] = {8, 10, 11, 13, 15, 16, 18, 20, 22, 23, 25, 1, 3, 4, 6};
+int gamin[15] = {9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 2, 4, 5, 7, 9};
+int amin[15] = {10, 12, 13, 15, 17, 18, 20, 22, 24, 25, 1, 3, 5, 6, 8};
+int abmin[15] = {11, 13, 14, 16, 18, 19, 21, 23, 25, 1, 2, 4, 6, 7, 9};
+int bmin[15] = {12, 14, 15, 17, 19, 20, 22, 24, 2, 3, 5, 7, 8, 10, 12};
+
+int cmaj[15] = {1, 3, 5, 6, 8, 10, 12, 13, 15, 17, 18, 20, 22, 24, 25};
+int cdmaj[15] = {2, 4, 6, 7, 9, 11, 13, 14, 16, 18, 19, 21, 23, 25, 1};
+int dmaj[15] = {3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24, 2, 3};
+int demaj[15] = {4, 6, 8, 9, 11, 13, 15, 16, 18, 20, 21, 23, 25, 1, 3};
+int emaj[15] = {5, 7, 9, 10, 12, 14, 16, 17, 19, 21, 22, 24, 2, 4, 5};
+int fmaj[15] = {6, 8, 10, 11, 13, 15, 17, 18, 20, 22, 23, 25, 1, 3, 5};
+int fgmaj[15] = {7, 9, 11, 12, 14, 16, 18, 19, 21, 23, 24, 2, 4, 6, 7};
+int gmaj[15] = {8, 10, 12, 13, 15, 17, 19, 20, 22, 24, 25, 1, 3, 5, 7};
+int gamaj[15] = {9, 11, 13, 14, 16, 18, 20, 21, 23, 25, 1, 2, 4, 6, 8};
+int amaj[15] = {10, 12, 14, 15, 17, 19, 21, 22, 24, 2, 3, 5, 7, 9, 10};
+int abmaj[15] = {11, 13, 15, 16, 18, 20, 22, 23, 25, 1, 3, 4, 6, 8, 10};
+int bmaj[15] = {12, 14, 16, 17, 19, 21, 23, 24, 2, 4, 5, 7, 9, 11, 12};
+
+bool isValidButton(int button, int valid_buttons[], int num_valid_buttons) {
+  for (int i = 0; i < num_valid_buttons; i++) {
+    if (button == valid_buttons[i]) {
+      return true;}
+  } return false;}
+  
+void setup() {
+  // Initialize digital pins
+  Serial.begin(9600);
+  pinMode(green_pin, OUTPUT);
+  pinMode(red_pin, OUTPUT);
+  pinMode(switchPin, INPUT_PULLUP);
+  pinMode(switchPin2, INPUT_PULLUP);
+  FastLED.addLeds^WS2812, DATA_PIN, GRB^(leds, NUM_LEDS);
+  FastLED.setBrightness(64);}
+
+
+void loop() {
+  // Read analog values of buttons
+  // Read more analog values as needed for other buttons
+  switchState = digitalRead(switchPin);
+  switchState2 = digitalRead(switchPin2);
+  int pin0 = analogRead(A0);
+  int pin1 = analogRead(A1);
+  int pin2 = analogRead(A2);
+
+  for (int i = 0; i < 25; i++) {
+  int pinValue = 0;
+  if (i < 8) {
+    pinValue = analogRead(A0);
+  } else if (i < 16) {
+    pinValue = analogRead(A1);
+  } else {
+    pinValue = analogRead(A2);}
+  if (pinValue >= buttonPins[i][0] && pinValue <= buttonPins[i][1]) {
+    current_button = i+1;
+    break;
+  } else if (i == 24) {
+    noTone(Buzz);}
+}
+
+if (switchState2 == LOW) {
+  game_started = false;
+  for (int i = 0; i < 14; i++){
+  leds[i] = CRGB::Black;
+  FastLED.show();}
+  if (current_button != 0) {
+    while ((analogRead(A0) != 0) || (analogRead(A1) != 0) || (analogRead(A2) != 0)) {
+      tone(Buzz, tones[current_button]);
+    }
+    noTone(Buzz);
+    current_button = 0;
+  }
+}
+
+
+  // Determine which button is being pressed
+  if(!game_started && switchState == HIGH && switchState2 == HIGH){
+    leds[0] = CRGB::Navy;
+    leds[1] = CRGB::Black; // Turn off the second LED
+  if ((pin0 >= 1009 && pin0 <= 1023) || (pin1 >= 881 && pin1 <= 945) || (pin2 >= 661 && pin2 <= 730)) {
+    memcpy(correctList, cmin, sizeof(cmin));
+  } else if ((pin0 >= 1000 && pin0 <= 1008) || (pin1 >= 801 && pin1 <= 880)) {
+  memcpy(correctList, cdmin, sizeof(cmin));
+  } else if ((pin0 >= 985 && pin0 <= 999) || (pin1 >= 731 && pin1 <= 800)) {
+    memcpy(correctList, dmin, sizeof(cmin));
+  } else if ((pin0 >= 946 && pin0 <= 984) || (pin1 >= 661 && pin1 <= 730)) {
+    memcpy(correctList, demin, sizeof(cmin));
+  } else if ((pin0 >= 881 && pin0 <= 945) || (pin2 >= 1009 && pin2 <= 1023)) {
+   memcpy(correctList, emin, sizeof(cmin));
+  } else if ((pin0 >= 801 && pin0 <= 880) || (pin2 >= 1000 && pin2 <= 1008)) {
+    memcpy(correctList, fmins, sizeof(cmin));
+  } else if ((pin0 >= 731 && pin0 <= 800) || (pin2 >= 985 && pin2 <= 999)) {
+    memcpy(correctList, fgmin, sizeof(cmin));
+  } else if ((pin0 >= 661 && pin0 <= 730) || (pin2 >= 946 && pin2 <= 984)) {
+    memcpy(correctList, gmin, sizeof(cmin));
+  } else if ((pin1 >= 1009 && pin1 <= 1023) || (pin2 >= 881 && pin2 <= 945)) {
+    memcpy(correctList, gamin, sizeof(cmin));
+  } else if ((pin1 >= 999 && pin1 <= 1008) || (pin2 >= 801 && pin2 <= 880)) {
+    memcpy(correctList, amin, sizeof(cmin));
+  } else if ((pin1 >= 985 && pin1 <= 998) || (pin2 >= 600 && pin2 <= 660)) {
+    memcpy(correctList, abmin, sizeof(cmin));
+  } else if ((pin1 >= 946 && pin1 <= 984) || (pin2 >= 731 && pin2 <= 800)) {
+    memcpy(correctList, bmin, sizeof(cmin));
+  } else {
+  return;}
+  game_started = true;}
+
+  if(!game_started && switchState == LOW && switchState2 == HIGH){
+    leds[1] = CRGB::Navy;
+    leds[0] = CRGB::Black; // Turn off the first LED
+  if ((pin0 >= 1009 && pin0 <= 1023) || (pin1 >= 881 && pin1 <= 945) || (pin2 >= 661 && pin2 <= 730)) {
+    memcpy(correctList, cmaj, sizeof(cmaj));
+  } else if ((pin0 >= 1000 && pin0 <= 1008) || (pin1 >= 801 && pin1 <= 880)) {
+  memcpy(correctList, cdmaj, sizeof(cmaj));
+  } else if ((pin0 >= 985 && pin0 <= 999) || (pin1 >= 731 && pin1 <= 800)) {
+    memcpy(correctList, dmaj, sizeof(cmaj));
+  } else if ((pin0 >= 946 && pin0 <= 984) || (pin1 >= 661 && pin1 <= 730)) {
+    memcpy(correctList, demaj, sizeof(cmaj));
+  } else if ((pin0 >= 881 && pin0 <= 945) || (pin2 >= 1009 && pin2 <= 1023)) {
+   memcpy(correctList, emaj, sizeof(cmaj));
+  } else if ((pin0 >= 801 && pin0 <= 880) || (pin2 >= 1000 && pin2 <= 1008)) {
+    memcpy(correctList, fmaj, sizeof(cmaj));
+  } else if ((pin0 >= 731 && pin0 <= 800) || (pin2 >= 985 && pin2 <= 999)) {
+    memcpy(correctList, fgmaj, sizeof(cmaj));
+  } else if ((pin0 >= 661 && pin0 <= 730) || (pin2 >= 946 && pin2 <= 984)) {
+    memcpy(correctList, gmaj, sizeof(cmaj));
+  } else if ((pin1 >= 1009 && pin1 <= 1023) || (pin2 >= 881 && pin2 <= 945)) {
+    memcpy(correctList, gamaj, sizeof(cmaj));
+  } else if ((pin1 >= 999 && pin1 <= 1008) || (pin2 >= 801 && pin2 <= 880)) {
+    memcpy(correctList, amaj, sizeof(cmaj));
+  } else if ((pin1 >= 985 && pin1 <= 998) || (pin2 >= 600 && pin2 <= 660)) {
+    memcpy(correctList, abmaj, sizeof(cmaj));
+  } else if ((pin1 >= 946 && pin1 <= 984) || (pin2 >= 731 && pin2 <= 800)) {
+    memcpy(correctList, bmaj, sizeof(cmaj));
+  } else {
+  return;}
+  game_started = true;}
+
+  
+  if (game_started){
+  leds[currentLED + 2] = CRGB::Black;
+  currentLED = correctList[0] - 1;
+  leds[currentLED + 2] = CRGB::Gold;
+
+  // Update the LED strip
+  FastLED.show();
+   // Check if pressed button is valid
+bool is_button_valid = isValidButton(current_button, correctList, sizeof(correctList)/sizeof(correctList[0]));
+  
+  // Turn on green or red light based on validity of pressed button
+  if (is_button_valid) {
+  digitalWrite(green_pin, HIGH);
+  tone(Buzz, tones[current_button]);
+  delay(100);
+  digitalWrite(green_pin, LOW);
+  current_button = 0;
+} else if (current_button != 0) {
+  digitalWrite(red_pin, HIGH);
+  tone(Buzz, tones[current_button]);
+  delay(1000);
+  noTone(Buzz);
+  current_button = 0;
+  digitalWrite(red_pin, LOW);
+  leds[correctList[0] + 1] = CRGB::Black;
+  FastLED.show();
+  current_button = 0;
+  game_started = false;
+}
+if (digitalRead(switchPin) != switchState) {
+      game_started = false;
+      leds[0] = CRGB::Black;
+      leds[1] = CRGB::Black;
+    }
+  }
+}
+
+</p></code></pre>
+
+<h3>Expansions</h3>
+
+<p>If I had had more time to work on this project, there are several things that I would have changed. I would have eventually figured out how to get the OLED to display custom messages that could have written out the current key and the current note being played instead of this information being conveyed through LED strip. I also would have implemented some sort of spring mechanism in the keys to make it feel as if you have to push them down like a real piano in order for the note to sound.</p>
+
+<p>Thank you so much for such a great semester!</p>
+
 And here is a [link to where the cover image came from](https://wallpapercave.com/music-keyboard-wallpaper).
-
 
 </xmp>
 </body>
